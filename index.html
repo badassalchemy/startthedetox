@@ -3,828 +3,1273 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Identity Detox · Badass Alchemy</title>
+<title>The Identity Detox — Badass Alchemy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0D0610;
-    --bg-mid: #180B1E;
-    --dark: #0D0618;
-    --dark-mid: #461D34;
-    --accent: #733960;
+    /* ===== BRAND PALETTE (locked from brand kit) ===== */
+    --bg:        #0D0610;
+    --bg-mid:    #180B1E;
+    --dark:      #0D0618;
+    --dark-mid:  #461D34;
+    --accent:    #733960;
     --accent-lt: #B16AA2;
-    --tertiary: #9B4E7A;
-    --detail: #C4789A;
-    --violet: #24123F;
-    --orchid: #C6B6CD;
-    --moon: #F7EDF1;
-    --txt: #F7EDF1;
-    --txt-sec: #E8D4E0;
-    --txt-muted: #C4A0B8;
+    --tertiary:  #9B4E7A;
+    --detail:    #C4789A;
+    --violet:    #24123F;
+    --orchid:    #C6B6CD;
+    --moon:      #F7EDF1;
+    --txt:       #F7EDF1;
+    --txt-sec:   #E8D4E0;
+    --txt-mid:   #C4A0B8;
     --txt-faded: #8A6080;
-    --border: rgba(179,106,162,0.25);
+    --txt-quiet: #5A3A50;
+    --border:    rgba(179,106,162,0.20);
     --border-bright: rgba(196,120,154,0.45);
-    --box-bg: rgba(13, 6, 24, 0.78);
-    --box-bg-strong: rgba(13, 6, 24, 0.88);
-    --box-bg-card: rgba(24, 11, 30, 0.82);
+    --shadow:    rgba(36,10,25,0.5);
 
-    /* IMPORTANT: GitHub blob URLs do NOT serve images directly.
-       Using raw.githubusercontent.com instead. If this fails to load,
-       replace with a CDN-hosted version (Cloudinary, Imgur, your own host). */
+    /* Background image — baked into entire page */
     --hero-image: url('https://raw.githubusercontent.com/badassalchemy/imageassets/main/mainbackground1.jpg');
+
+    --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-  html, body {
+  body {
     background: var(--bg);
     color: var(--txt-sec);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
+    font-family: var(--sans);
+    font-size: 18px; /* bumped up from 16px */
+    font-weight: 400;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+  ::selection { background: var(--accent); color: var(--txt); }
+  img { max-width: 100%; display: block; }
 
-  ::selection { background: var(--accent); color: var(--moon); }
-
-  /* ============ BACKGROUND IMAGE LAYER ============ */
-  .page {
-    position: relative;
-    min-height: 100vh;
+  /* ====================================================
+     GLOBAL BAKED BACKGROUND — visible throughout
+     ==================================================== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
     background-color: var(--bg);
-    background-image:
-      linear-gradient(180deg, rgba(13,6,16,0.55) 0%, rgba(13,6,16,0.65) 100%),
-      var(--hero-image);
+    background-image: var(--hero-image);
     background-size: cover;
     background-position: center top;
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
-
-  /* Fallback gradient if image doesn't load - still feels on-brand */
-  .page::before {
+  body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 30%, rgba(115,57,96,0.25), transparent 60%),
-                radial-gradient(ellipse at 20% 70%, rgba(100,30,90,0.22), transparent 55%);
+    z-index: -1;
+    /* Subtle dark overlay so text stays readable, but image is clearly visible */
+    background: linear-gradient(180deg, rgba(13,6,16,0.55) 0%, rgba(13,6,16,0.72) 100%);
     pointer-events: none;
-    z-index: 0;
   }
 
-  .container {
+  /* ============ TOP PROMO BAR ============ */
+  .promo-bar {
     position: relative;
-    z-index: 1;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 22px;
-  }
-
-  /* ============ TYPOGRAPHY ============ */
-  h1, h2, h3, .serif {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 700;
-    color: var(--txt);
-    letter-spacing: -0.01em;
-  }
-
-  .eyebrow {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 3px;
+    z-index: 200;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--detail) 50%, var(--accent) 100%);
+    padding: 14px 24px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--accent-lt);
+    color: var(--moon);
+  }
+  .promo-bar .sep {
+    display: inline-block;
+    margin: 0 14px;
+    color: rgba(247,237,241,0.7);
   }
 
-  .italic-accent {
-    font-style: italic;
-    color: var(--accent-lt);
-    font-weight: 400;
+  /* ============ NAV ============ */
+  nav {
+    position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 36px;
+    background: rgba(13,6,16,0.78);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
   }
+  .nav-logo {
+    font-family: var(--serif); font-size: 22px; font-weight: 500;
+    color: var(--txt); letter-spacing: 0.02em;
+  }
+  .nav-logo em {
+    font-style: italic; color: var(--accent-lt);
+    font-weight: 500; /* italics bolder */
+  }
+  .nav-cta {
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--txt); background: transparent;
+    border: 1px solid var(--border-bright); padding: 12px 24px;
+    cursor: pointer; text-decoration: none; transition: all .25s ease;
+  }
+  .nav-cta:hover { background: var(--txt); color: var(--bg); border-color: var(--txt); }
 
-  /* ============ DARK OVERLAY BOX ============ */
-  .box {
-    background: var(--box-bg);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 32px 28px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(196,120,154,0.06) inset;
+  /* ====================================================
+     SECTION FOUNDATIONS — transparent so bg shows through
+     ==================================================== */
+  section {
+    position: relative;
+    padding: 130px 36px;
+    background: transparent;
   }
-
-  .box-card {
-    background: var(--box-bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 22px 20px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+  /* Soft section veils — let background show but keep text legible */
+  .section-veil {
+    background: rgba(13,6,16,0.55);
+    backdrop-filter: blur(2px);
   }
+  .section-veil-strong {
+    background: rgba(13,6,16,0.72);
+    backdrop-filter: blur(3px);
+  }
+  .container { max-width: 1240px; margin: 0 auto; }
 
   /* ============ HERO ============ */
   .hero {
-    padding: 90px 0 70px;
-    text-align: center;
+    position: relative;
+    min-height: 92vh;
+    padding: 110px 36px 80px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; overflow: hidden;
+    /* No background-image here — body shows through */
   }
-
-  .hero .box {
-    padding: 44px 30px;
-    background: var(--box-bg-strong);
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 60%, rgba(13,6,16,0.4) 100%);
+    pointer-events: none;
   }
-
-  .hero-tag {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 18px;
-    color: var(--detail);
-    margin-bottom: 14px;
-  }
+  .hero > * { position: relative; z-index: 1; }
 
   .hero-eyebrow {
-    margin-bottom: 22px;
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.36em; text-transform: uppercase;
+    color: var(--detail); margin-bottom: 36px;
+    opacity: 0; animation: fadeUp .9s ease forwards;
+    text-shadow: 0 2px 20px rgba(13,6,16,0.8);
   }
-
   .hero h1 {
-    font-size: clamp(30px, 5.4vw, 50px);
-    line-height: 1.12;
-    color: var(--txt);
-    margin-bottom: 22px;
-    letter-spacing: -0.015em;
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(38px, 5.6vw, 88px);
+    line-height: 1.04; letter-spacing: -0.02em;
+    color: var(--txt); max-width: 1100px; margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 1.1s ease .2s forwards;
+    text-shadow: 0 4px 30px rgba(13,6,16,0.9);
   }
-
   .hero h1 em {
     font-style: italic;
-    color: var(--accent-lt);
-    font-weight: 400;
+    color: var(--detail);
+    font-weight: 600; /* italics now BOLDER */
   }
-
   .hero-sub {
-    font-size: 17px;
-    color: var(--txt-sec);
-    line-height: 1.65;
-    max-width: 540px;
-    margin: 0 auto 28px;
+    font-family: var(--sans); font-size: 19px; line-height: 1.7;
+    color: var(--txt); max-width: 700px; margin: 0 auto 52px;
+    font-weight: 500;
+    opacity: 0; animation: fadeUp 1.1s ease .4s forwards;
+    text-shadow: 0 2px 14px rgba(13,6,16,0.7);
   }
-
-  .hero-price-row {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 22px;
-    background: rgba(115,57,96,0.18);
+  .hero-cta-row {
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    opacity: 0; animation: fadeUp 1.1s ease .6s forwards;
+  }
+  .price-pill {
+    display: inline-flex; align-items: center; gap: 18px;
+    padding: 16px 30px;
     border: 1px solid var(--border-bright);
-    border-radius: 50px;
-    margin-bottom: 28px;
+    border-radius: 60px;
+    background: rgba(13,6,16,0.6);
+    backdrop-filter: blur(10px);
+    margin-bottom: 6px;
   }
-  .hero-price-row .price {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: var(--moon);
+  .price-pill .currency {
+    font-family: var(--serif); font-size: 18px;
+    color: var(--accent-lt); font-style: italic; font-weight: 600;
   }
-  .hero-price-row .label {
-    font-size: 14px;
-    color: var(--txt-muted);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 600;
+  .price-pill .num {
+    font-family: var(--serif); font-size: 36px;
+    color: var(--txt); font-weight: 500; line-height: 1;
   }
-
-  /* ============ CTA BUTTON ============ */
-  .cta {
-    display: inline-block;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+  .price-pill .label {
+    font-family: var(--sans); font-size: 12px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--txt-sec); font-weight: 600;
+  }
+  .btn-primary {
+    font-family: var(--sans); font-size: 14px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--moon);
     background: linear-gradient(135deg, var(--accent) 0%, var(--dark-mid) 100%);
-    padding: 18px 42px;
-    border-radius: 50px;
+    padding: 22px 50px;
     border: 1px solid var(--border-bright);
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 10px 30px rgba(115,57,96,0.4), 0 0 0 1px rgba(196,120,154,0.15) inset;
+    border-radius: 60px;
+    cursor: pointer; text-decoration: none;
+    transition: all .3s ease; display: inline-block;
+    box-shadow: 0 20px 50px rgba(115,57,96,0.5), 0 0 0 1px rgba(196,120,154,0.18) inset;
   }
-  .cta:hover {
+  .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 40px rgba(115,57,96,0.55), 0 0 0 1px rgba(196,120,154,0.25) inset;
+    box-shadow: 0 26px 60px rgba(115,57,96,0.65), 0 0 0 1px rgba(196,120,154,0.3) inset;
+  }
+  .btn-primary .arrow { display: inline-block; margin-left: 12px; transition: transform .3s; }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+  .hero-meta {
+    font-family: var(--sans); font-size: 13px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--txt-sec); font-weight: 500;
+    text-shadow: 0 2px 14px rgba(13,6,16,0.7);
   }
 
-  .cta-sub {
-    display: block;
-    margin-top: 14px;
-    font-size: 14px;
-    color: var(--txt-muted);
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-
-  /* ============ SECTION SPACING ============ */
-  section { padding: 50px 0; position: relative; }
-
-  .section-title {
-    font-size: clamp(30px, 5vw, 44px);
-    line-height: 1.15;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-
-  .section-eyebrow {
-    text-align: center;
-    margin-bottom: 14px;
-  }
-
-  .section-lead {
-    text-align: center;
-    font-size: 16px;
-    color: var(--txt-sec);
-    max-width: 580px;
-    margin: 0 auto 32px;
-    line-height: 1.7;
-  }
-
-  /* ============ PROBLEM SECTION ============ */
-  .problem .box p {
-    font-size: 17px;
-    color: var(--txt-sec);
-    margin-bottom: 16px;
-    line-height: 1.7;
-  }
-  .problem .box p:last-child { margin-bottom: 0; }
-  .problem .box p strong {
-    color: var(--moon);
-    font-weight: 600;
-  }
-
-  .arrow-list {
-    list-style: none;
-    margin: 22px 0;
-  }
-  .arrow-list li {
-    padding: 12px 0 12px 32px;
-    position: relative;
-    font-size: 16px;
-    color: var(--txt-sec);
-    border-bottom: 1px solid rgba(179,106,162,0.12);
-  }
-  .arrow-list li:last-child { border-bottom: none; }
-  .arrow-list li::before {
-    content: '✦';
-    position: absolute;
-    left: 0;
-    top: 12px;
-    color: var(--accent-lt);
-    font-size: 14px;
-  }
-
-  /* ============ DAYS SECTION ============ */
-  .days-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 22px;
-    margin-top: 24px;
-  }
-
-  .day-card {
-    background: var(--box-bg-card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 30px 26px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    position: relative;
+  /* ============ CHAPTER RIBBON ============ */
+  .ribbon {
+    background: rgba(13,6,16,0.78);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
     overflow: hidden;
+    white-space: nowrap;
   }
-
-  .day-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-lt), var(--detail));
+  .ribbon-inner {
+    display: flex; align-items: center; justify-content: center;
+    gap: 32px; flex-wrap: wrap; padding: 0 36px;
   }
-
-  .day-num {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
+  .ribbon-item {
+    font-family: var(--serif); font-style: italic;
+    font-size: 20px; color: var(--txt);
+    font-weight: 600; /* bolder italics for readability */
+    letter-spacing: -0.005em;
+  }
+  .ribbon-sep {
     color: var(--accent-lt);
-    margin-bottom: 8px;
+    font-size: 13px;
   }
 
-  .day-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--txt);
-    margin-bottom: 14px;
-    line-height: 1.2;
+  /* ============ TYPOGRAPHY DEFAULTS ============ */
+  .eyebrow {
+    font-family: var(--sans); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.36em; text-transform: uppercase;
+    color: var(--accent-lt); margin-bottom: 30px;
   }
-  .day-title em {
+  .eyebrow.eyebrow-center { text-align: center; }
+
+  h2.section-h {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--txt); margin-bottom: 30px;
+  }
+  h2.section-h em {
+    font-style: italic; color: var(--detail);
+    font-weight: 600; /* bolder italics */
+  }
+
+  /* ============ THESIS SECTION ============ */
+  .thesis {
+    padding: 150px 36px 110px;
+    text-align: center;
+    background: rgba(13,6,16,0.6);
+    backdrop-filter: blur(2px);
+  }
+  .thesis-eyebrow {
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.36em; text-transform: uppercase;
+    color: var(--txt-sec); margin-bottom: 54px;
+  }
+  .thesis-eyebrow .dot {
+    display: inline-block; margin: 0 10px;
+    color: var(--detail);
+  }
+  .thesis-h {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(42px, 6.5vw, 96px);
+    line-height: 1.02; letter-spacing: -0.025em;
+    color: var(--txt); margin-bottom: 40px;
+    max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .thesis-h em {
     font-style: italic;
+    color: var(--detail);
+    font-weight: 600;
+  }
+  .thesis-body {
+    font-family: var(--sans);
+    font-size: 19px; /* bumped up */
+    line-height: 1.78;
+    color: var(--txt-sec);
+    font-weight: 400;
+    max-width: 620px;
+    margin: 0 auto 80px;
+  }
+  .thesis-body em {
+    font-style: italic;
+    color: var(--detail);
+    font-weight: 600;
+  }
+  .thesis-callout {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(30px, 4.2vw, 56px);
+    line-height: 1.16;
+    color: var(--txt);
+    margin: 0 auto 30px;
+    max-width: 900px;
+    letter-spacing: -0.018em;
+  }
+  .thesis-callout em {
+    font-style: italic;
+    color: var(--detail);
+    font-weight: 600;
+  }
+  .thesis-resolve {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 600; /* bolder */
+    font-size: clamp(28px, 3.8vw, 48px);
+    line-height: 1.2;
+    color: var(--txt);
+    margin: 64px auto 28px;
+    max-width: 900px;
+    letter-spacing: -0.012em;
+  }
+  .thesis-resolve em {
+    color: var(--detail);
+    font-style: italic;
+    font-weight: 700;
+  }
+  .thesis-resolve-body {
+    font-family: var(--sans);
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--txt-sec);
+    font-weight: 400;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .thesis-resolve-body strong {
+    color: var(--txt); font-weight: 700;
+  }
+
+  /* ============ MID PRICE CTA BLOCK ============ */
+  .price-block {
+    padding: 110px 36px;
+    text-align: center;
+    background: rgba(13,6,16,0.4);
+    backdrop-filter: blur(1px);
+  }
+  .price-card {
+    display: inline-flex; align-items: center; gap: 22px;
+    padding: 20px 36px;
+    border: 1px solid var(--border-bright);
+    border-radius: 60px;
+    background: rgba(13,6,16,0.65);
+    backdrop-filter: blur(12px);
+    margin-bottom: 26px;
+  }
+  .price-card .num {
+    font-family: var(--serif); font-size: 46px;
+    color: var(--txt); font-weight: 500; line-height: 1;
+  }
+  .price-card .num .c {
+    font-size: 24px; color: var(--accent-lt);
+    font-style: italic; font-weight: 600;
+    vertical-align: top;
+  }
+  .price-card .meta {
+    font-family: var(--sans); font-size: 14px;
+    color: var(--txt-sec); line-height: 1.5;
+    text-align: left;
+  }
+  .price-card .meta strong {
+    color: var(--txt); font-weight: 700;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .price-block .meta-row {
+    margin-top: 28px;
+    font-family: var(--sans); font-size: 13px;
+    color: var(--txt-sec);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .price-block .meta-row .sep { margin: 0 10px; color: var(--accent-lt); }
+
+  /* ============ DELIVERABLES GRID ============ */
+  .deliverables {
+    padding: 140px 36px;
+    background: rgba(13,6,16,0.7);
+    backdrop-filter: blur(3px);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .deliverables-header {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 760px;
+    margin-left: auto; margin-right: auto;
+  }
+  .deliverables-header p {
+    font-family: var(--sans);
+    font-size: 18px; line-height: 1.75;
+    color: var(--txt-sec);
+    margin-top: 16px;
+    font-weight: 400;
+  }
+  .deliv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .deliv-card {
+    background: rgba(24,11,30,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all .3s ease;
+  }
+  .deliv-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  .deliv-card-top {
+    padding: 40px 28px 26px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(196,120,154,0.08), transparent);
+  }
+
+  /* ===== ELEGANT TYPOGRAPHIC ICONS — replacing emojis ===== */
+  .deliv-numeral {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 44px;
+    color: var(--detail);
+    line-height: 1;
+    margin-bottom: 22px;
+    letter-spacing: -0.02em;
+    display: block;
+  }
+  .deliv-ornament {
+    font-family: var(--serif);
+    font-size: 32px;
     color: var(--accent-lt);
+    margin-bottom: 22px;
+    display: block;
+    letter-spacing: 0.1em;
     font-weight: 400;
   }
 
-  .day-desc {
-    font-size: 15px;
-    color: var(--txt-sec);
-    margin-bottom: 18px;
-    line-height: 1.65;
+  .deliv-card-top h4 {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 20px;
+    color: var(--detail);
+    margin-bottom: 16px;
+    letter-spacing: -0.005em;
   }
-
-  .day-includes {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 2px;
+  .deliv-tag {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: var(--detail);
-    margin-bottom: 10px;
-  }
-
-  .day-list {
-    list-style: none;
-  }
-  .day-list li {
-    padding: 6px 0 6px 22px;
-    position: relative;
-    font-size: 15px;
     color: var(--txt-sec);
+    border: 1px solid var(--border-bright);
+    padding: 7px 16px;
+    border-radius: 50px;
+    font-weight: 600;
   }
-  .day-list li::before {
-    content: '◆';
-    position: absolute;
-    left: 0;
-    color: var(--tertiary);
-    font-size: 9px;
-    top: 10px;
+  .deliv-card-body {
+    padding: 30px 28px 34px;
   }
-
-  .day-closer {
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(179,106,162,0.15);
-    font-family: 'Cormorant Garamond', serif;
+  .deliv-card-body .small-mark {
+    font-family: var(--serif);
     font-style: italic;
-    font-size: 17px;
-    color: var(--accent-lt);
-    line-height: 1.5;
-  }
-
-  /* ============ WHAT YOU GET GRID ============ */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-top: 24px;
-  }
-  .feature-card {
-    background: var(--box-bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 22px 18px;
-    text-align: center;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    position: relative;
-  }
-  .feature-card .icon {
-    font-size: 28px;
-    margin-bottom: 10px;
-    display: block;
-  }
-  .feature-card .label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--txt);
-    line-height: 1.4;
-  }
-
-  /* ============ BADDIE SOCIETY ============ */
-  .society-list {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-top: 22px;
-  }
-  .society-list li {
-    padding: 14px 16px 14px 42px;
-    background: rgba(24, 11, 30, 0.5);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    position: relative;
-    font-size: 15px;
-    color: var(--txt-sec);
-  }
-  .society-list li::before {
-    content: '✧';
-    position: absolute;
-    left: 16px;
-    top: 14px;
-    color: var(--detail);
-    font-size: 14px;
-  }
-
-  /* ============ WHO IT'S FOR ============ */
-  .who-list {
-    list-style: none;
-    margin-top: 18px;
-  }
-  .who-list li {
-    padding: 14px 0 14px 36px;
-    position: relative;
-    font-size: 16px;
-    color: var(--txt-sec);
-    border-bottom: 1px solid rgba(179,106,162,0.12);
-    line-height: 1.55;
-  }
-  .who-list li:last-child { border-bottom: none; }
-  .who-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 4px;
-    top: 14px;
-    color: var(--accent-lt);
-    font-weight: 700;
-    font-size: 16px;
-  }
-
-  /* ============ DIVIDER ============ */
-  .divider {
-    text-align: center;
-    margin: 30px 0;
     font-size: 18px;
     color: var(--accent-lt);
-    letter-spacing: 16px;
+    margin-bottom: 14px;
+    font-weight: 500;
   }
-
-  /* ============ FINAL CTA ============ */
-  .final-cta {
-    padding: 70px 0 90px;
-    text-align: center;
-  }
-  .final-cta .box {
-    padding: 50px 32px;
-    background: var(--box-bg-strong);
-  }
-  .final-cta h2 {
-    font-size: clamp(34px, 6vw, 52px);
-    line-height: 1.1;
-    margin-bottom: 18px;
-  }
-  .final-cta .price-big {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 64px;
-    font-weight: 700;
-    color: var(--moon);
-    line-height: 1;
-    margin: 18px 0 8px;
-  }
-  .final-cta .price-label {
-    font-size: 14px;
-    color: var(--txt-muted);
-    letter-spacing: 3px;
-    text-transform: uppercase;
+  .deliv-card-body h5 {
+    font-family: var(--serif);
     font-weight: 600;
-    margin-bottom: 26px;
+    font-size: 24px;
+    color: var(--detail);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
   }
-  .final-cta .includes {
-    list-style: none;
-    margin: 24px auto 30px;
-    max-width: 360px;
-    text-align: left;
-  }
-  .final-cta .includes li {
-    padding: 8px 0 8px 30px;
-    position: relative;
-    font-size: 15px;
+  .deliv-card-body p {
+    font-family: var(--sans);
+    font-size: 15px; /* bumped from 14 */
+    line-height: 1.75;
     color: var(--txt-sec);
+    font-weight: 400;
   }
-  .final-cta .includes li::before {
-    content: '✦';
-    position: absolute;
-    left: 8px;
-    color: var(--accent-lt);
+  .deliv-card-body p strong {
+    color: var(--txt);
+    font-weight: 600;
   }
 
-  /* ============ FOOTER ============ */
-  .footer {
-    background: rgba(13, 6, 16, 0.92);
-    padding: 24px 0;
+  /* ============ BOBBIE FEATURED ============ */
+  .bobbie-section {
+    padding: 140px 36px;
+    background: rgba(13,6,16,0.55);
+    backdrop-filter: blur(2px);
+  }
+  .bobbie-header {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 800px;
+    margin-left: auto; margin-right: auto;
+  }
+  .bobbie-feature {
+    background: rgba(24,11,30,0.85);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 80px 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  }
+  .bobbie-content .micro {
+    font-family: var(--sans); font-size: 13px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--detail); margin-bottom: 22px;
+    font-weight: 700;
+  }
+  .bobbie-quote {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(30px, 3.6vw, 42px);
+    line-height: 1.28; color: var(--txt);
+    margin-bottom: 26px;
+    font-weight: 600; /* bolder italic */
+    letter-spacing: -0.015em;
+  }
+  .bobbie-quote em {
+    color: var(--detail);
+    font-style: italic;
+    font-weight: 700;
+  }
+  .bobbie-body {
+    font-family: var(--sans); font-size: 17px; /* bumped */
+    line-height: 1.8; color: var(--txt-sec);
+    margin-bottom: 18px;
+    font-weight: 400;
+  }
+  .bobbie-secondary-quote {
+    color: var(--detail);
+    font-style: italic;
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.45;
+    margin-top: 28px;
+    font-weight: 600; /* bolder italic */
+  }
+  .bobbie-attr {
+    font-family: var(--serif); font-size: 22px;
+    font-style: italic; color: var(--accent-lt);
+    margin-top: 24px;
+    font-weight: 600;
+  }
+  .bobbie-visual {
+    position: relative;
+    aspect-ratio: 1 / 1.05;
+  }
+  .bobbie-portrait {
+    position: absolute; top: 0; left: 0;
+    width: 78%;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-mid);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+  }
+  .bobbie-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .bobbie-portrait::after {
+    content: 'Bobbie';
+    position: absolute; bottom: 14px; left: 14px;
+    font-family: var(--serif); font-style: italic;
+    font-size: 22px; color: var(--txt);
+    background: rgba(13,6,16,0.78);
+    backdrop-filter: blur(10px);
+    padding: 6px 16px;
+    border: 1px solid var(--border-bright);
+    border-radius: 50px;
+    z-index: 2;
+    font-weight: 600;
+  }
+  .bobbie-screenshot {
+    position: absolute; bottom: 0; right: 0;
+    width: 52%;
+    border: 1px solid var(--border-bright);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    z-index: 3;
+  }
+  .bobbie-screenshot img { width: 100%; height: auto; }
+  .bobbie-screenshot::before {
+    content: 'Real DM';
+    position: absolute; top: 10px; left: 10px;
+    font-family: var(--sans); font-size: 10px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--txt); background: rgba(13,6,16,0.88);
+    padding: 6px 12px; border-radius: 50px;
+    border: 1px solid var(--border-bright); z-index: 4;
+    font-weight: 600;
+  }
+
+  /* ============ DM TESTIMONIAL COLLAGE ============ */
+  .testimonials-collage {
+    padding: 140px 36px;
+    background: rgba(13,6,16,0.7);
+    backdrop-filter: blur(3px);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .testi-header {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 840px;
+    margin-left: auto; margin-right: auto;
+  }
+  .testi-header p {
+    font-family: var(--sans);
+    font-size: 17px; line-height: 1.7;
+    color: var(--txt-sec);
+    margin-top: 16px;
+    font-weight: 400;
+  }
+  .testi-collage {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .testi-tile {
+    background: rgba(24,11,30,0.88);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    transition: all .3s ease;
+    position: relative;
+    min-height: 240px;
+  }
+  .testi-tile:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-bright);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  .testi-tile.tall    { grid-column: span 4; min-height: 480px; }
+  .testi-tile.short   { grid-column: span 4; min-height: 300px; }
+  .testi-tile.wide    { grid-column: span 4; min-height: 340px; }
+  .testi-tile.t-md    { grid-column: span 4; min-height: 400px; }
+
+  .testi-tile .mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    color: var(--accent-lt);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .testi-tile .label {
+    font-family: var(--sans); font-size: 11px;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--txt-faded); margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .testi-tile .quote {
+    font-family: var(--serif); font-style: italic;
+    font-size: 19px; line-height: 1.5; /* bumped */
+    color: var(--txt); margin-bottom: 14px;
+    font-weight: 600; /* italics bolder */
+  }
+  .testi-tile .quote em {
+    color: var(--detail);
+    font-weight: 700;
+  }
+  .testi-tile .body {
+    font-family: var(--sans); font-size: 14px;
+    line-height: 1.7; color: var(--txt-sec);
+    font-weight: 400;
+  }
+  .testi-tile .attr {
+    font-family: var(--serif); font-size: 16px;
+    font-style: italic; color: var(--accent-lt);
+    margin-top: 14px;
+    font-weight: 600;
+  }
+  .testi-tile .ph-note {
+    font-family: var(--sans); font-size: 11px;
+    color: var(--txt-faded); margin-top: 16px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  /* ============ FINAL CLOSING ============ */
+  .final-close {
+    padding: 200px 36px;
     text-align: center;
     border-top: 1px solid var(--border);
-    backdrop-filter: blur(10px);
+    background: rgba(13,6,16,0.45);
+    backdrop-filter: blur(1px);
+  }
+  .final-close .inner {
+    max-width: 880px;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
   }
-  .footer-text {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
-    color: var(--txt-faded);
+  .final-close h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(50px, 7.2vw, 116px);
+    line-height: 1.0;
+    color: var(--txt);
+    margin-bottom: 32px;
+    letter-spacing: -0.025em;
     text-transform: uppercase;
+    text-shadow: 0 4px 30px rgba(13,6,16,0.9);
+  }
+  .final-close h2 em {
+    display: block;
+    font-style: italic;
+    color: var(--detail);
+    font-weight: 600; /* italics bolder */
+    text-transform: none;
+    font-size: 0.62em;
+    letter-spacing: -0.012em;
+    margin-top: 18px;
+  }
+  .final-close .sub {
+    font-family: var(--sans);
+    font-size: 18px; /* bumped */
+    line-height: 1.8;
+    color: var(--txt-sec);
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto 54px;
+    text-shadow: 0 2px 14px rgba(13,6,16,0.6);
+  }
+  .final-close .sub strong { color: var(--txt); font-weight: 700; }
+  .final-close .meta-row {
+    margin-top: 30px;
+    font-family: var(--sans); font-size: 13px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--txt-sec); font-weight: 600;
+  }
+
+  /* ============ FAQ ============ */
+  .faq {
+    padding: 140px 36px;
+    background: rgba(13,6,16,0.65);
+    backdrop-filter: blur(3px);
+  }
+  .faq-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .faq-list { max-width: 840px; margin: 0 auto; }
+  details.faq-item {
+    border-top: 1px solid var(--border);
+    padding: 32px 0; cursor: pointer;
+  }
+  details.faq-item:last-child { border-bottom: 1px solid var(--border); }
+  details.faq-item summary {
+    font-family: var(--serif); font-size: 24px; color: var(--txt);
+    list-style: none; display: flex;
+    justify-content: space-between; align-items: center; gap: 24px;
+    font-weight: 600; line-height: 1.3; letter-spacing: -0.005em;
+  }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item summary::after {
+    content: '+'; font-family: var(--serif);
+    font-size: 32px; color: var(--accent-lt);
+    transition: transform .3s ease; font-weight: 400;
+  }
+  details.faq-item[open] summary::after { content: '−'; }
+  details.faq-item .faq-body {
+    margin-top: 20px;
+    font-family: var(--sans); font-size: 16px;
+    line-height: 1.8; color: var(--txt-sec);
+    max-width: 760px;
+    font-weight: 400;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: rgba(13,6,16,0.92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 54px 36px 44px;
+  }
+  .footer-inner {
+    max-width: 1240px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 24px;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-size: 22px;
+    color: var(--txt); font-weight: 500;
+  }
+  .footer-logo em {
+    font-style: italic; color: var(--accent-lt);
+    font-weight: 500;
+  }
+  .footer-meta {
+    font-family: var(--sans); font-size: 12px;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--txt-faded); font-weight: 600;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* ============ RESPONSIVE ============ */
-  @media (max-width: 600px) {
-    .container { padding: 0 16px; }
-    .hero { padding: 60px 0 50px; }
-    .hero .box { padding: 32px 22px; }
-    .box { padding: 26px 22px; }
-    .day-card { padding: 26px 22px; }
-    .day-title { font-size: 24px; }
-    .features-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .final-cta .price-big { font-size: 52px; }
-    .final-cta .box { padding: 38px 22px; }
-    section { padding: 40px 0; }
+  @media (max-width: 960px) {
+    body { font-size: 17px; }
+    .promo-bar { font-size: 11px; letter-spacing: 0.14em; padding: 12px 18px; }
+    .promo-bar .sep { margin: 0 8px; }
+    nav { padding: 14px 22px; }
 
-    /* Disable fixed background on mobile for performance */
-    .page { background-attachment: scroll; }
+    section, .thesis, .price-block, .deliverables, .bobbie-section, .testimonials-collage, .faq, .final-close { padding: 90px 22px; }
+    .hero { padding: 80px 22px 60px; min-height: auto; }
+    .final-close { padding: 140px 22px; }
+    footer { padding: 44px 22px 32px; }
+
+    /* Disable fixed background on mobile (perf) */
+    body::before {
+      background-attachment: scroll;
+      background-position: center center;
+    }
+
+    .ribbon-inner { gap: 16px; }
+    .ribbon-item { font-size: 16px; }
+
+    .deliv-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+    .bobbie-feature { grid-template-columns: 1fr; padding: 54px 32px; gap: 50px; }
+    .bobbie-visual { aspect-ratio: 1 / 1.1; max-width: 440px; margin: 0 auto; width: 100%; }
+
+    .testi-tile.tall,
+    .testi-tile.short,
+    .testi-tile.wide,
+    .testi-tile.t-md { grid-column: span 6; min-height: 280px; }
+
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    .hero h1 { font-size: 34px; line-height: 1.1; }
+    .hero-sub { font-size: 17px; }
+    .thesis-h { font-size: 38px; line-height: 1.08; }
+    .thesis-callout { font-size: 28px; }
+    .thesis-resolve { font-size: 26px; }
+    .thesis-body, .thesis-resolve-body { font-size: 17px; }
+    .deliv-grid { grid-template-columns: 1fr; }
+    .testi-tile.tall,
+    .testi-tile.short,
+    .testi-tile.wide,
+    .testi-tile.t-md { grid-column: span 12; min-height: 240px; }
+    .final-close h2 { font-size: 44px; }
+    .final-close h2 em { font-size: 0.58em; }
+    .btn-primary { padding: 18px 38px; font-size: 13px; letter-spacing: 0.18em; }
+    .ribbon-inner { gap: 12px; }
+    .ribbon-item { font-size: 14px; }
+    .bobbie-feature { padding: 40px 24px; }
+    details.faq-item summary { font-size: 19px; }
+    .bobbie-quote { font-size: 24px; }
   }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- ============ HERO ============ -->
-  <section class="hero">
-    <div class="container">
-      <div class="box">
-        <div class="hero-tag">Badass Alchemy · Baddie Society</div>
-        <div class="eyebrow hero-eyebrow">The Identity Detox</div>
-        <h1>You're not manifesting more<br>because you're still identifying<br>with the version of you<br><em>that expects less.</em></h1>
-        <p class="hero-sub">The Identity Detox is a 3-day subconscious reset designed to help you release the woman built from survival mode, self-sabotage, inconsistency, and limitation — so you can finally become available for the life you keep trying to call in.</p>
-        <div class="hero-price-row">
-          <span class="price">$27</span>
-          <span class="label">Instant Access</span>
-        </div>
-        <br>
-        <a href="#join" class="cta">Start Your Identity Shift</a>
-        <span class="cta-sub">3 Days · Instant Access · Skool Community Included</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ PROBLEM ============ -->
-  <section class="problem">
-    <div class="container">
-      <div class="box">
-        <div class="eyebrow section-eyebrow">Read This First</div>
-        <h2 class="section-title">You don't need<br><em class="italic-accent">another mindset lecture.</em></h2>
-        <p>You don't need to spend 6 months "healing" before you allow yourself to receive more.</p>
-        <p>And you definitely don't need to keep repeating the same subconscious patterns while trying to create a different reality.</p>
-        <p><strong>You need a new identity.</strong></p>
-        <p>Because your current reality is being created by:</p>
-        <ul class="arrow-list">
-          <li>The version of you you've normalized</li>
-          <li>The beliefs you keep rehearsing</li>
-          <li>The emotional patterns your nervous system keeps returning to</li>
-        </ul>
-        <p>The Identity Detox was designed to interrupt that cycle <strong>fast.</strong></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ WHAT THIS DOES ============ -->
-  <section>
-    <div class="container">
-      <div class="box">
-        <div class="eyebrow section-eyebrow">What This Is</div>
-        <h2 class="section-title">A powerful 3-day<br>interactive experience.</h2>
-        <p class="section-lead">Unlike most mindset work — this is simple, immersive, emotional, and easy to actually complete.</p>
-
-        <ul class="who-list" style="max-width:520px;margin:24px auto 0;">
-          <li>Release outdated identities</li>
-          <li>Reprogram limiting beliefs</li>
-          <li>Shift your self-concept</li>
-          <li>Regulate your energy</li>
-          <li>Embody the woman who attracts more naturally</li>
-        </ul>
-
-        <p style="text-align:center;margin-top:28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--accent-lt);line-height:1.5;">
-          No endless journaling.<br>
-          No overcomplicated healing work.<br>
-          No digging through your childhood for 47 hours.
-        </p>
-        <p style="text-align:center;margin-top:18px;font-size:16px;color:var(--moon);font-weight:600;letter-spacing:1px;">
-          Just deep identity recalibration.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ THE 3 DAYS ============ -->
-  <section>
-    <div class="container">
-      <div class="eyebrow section-eyebrow">What's Inside</div>
-      <h2 class="section-title">The 3-Day<br><em class="italic-accent">Identity Shift.</em></h2>
-
-      <div class="days-grid">
-
-        <!-- DAY 1 -->
-        <div class="day-card">
-          <div class="day-num">Day One</div>
-          <div class="day-title">Who Have <em>I Been?</em></div>
-          <p class="day-desc">Identify the emotional patterns, identities, and survival versions of yourself that are still running your life behind the scenes.</p>
-          <div class="day-includes">Inside</div>
-          <ul class="day-list">
-            <li>Pattern Picker Exercise</li>
-            <li>Identity Awareness Prompts</li>
-            <li>Story Release Process</li>
-            <li>Deep Subconscious Activation Audio</li>
-          </ul>
-          <div class="day-closer">This is where you stop romanticizing the version of you that no longer fits.</div>
-        </div>
-
-        <!-- DAY 2 -->
-        <div class="day-card">
-          <div class="day-num">Day Two</div>
-          <div class="day-title">What Is <em>Stopping Me?</em></div>
-          <p class="day-desc">Expose the subconscious beliefs quietly controlling your decisions, standards, relationships, money, and self-worth.</p>
-          <div class="day-includes">You Will</div>
-          <ul class="day-list">
-            <li>Identify your core limiting beliefs</li>
-            <li>Rewrite them in real time</li>
-            <li>Record your new identity beliefs out loud</li>
-            <li>Begin nervous system reprogramming</li>
-          </ul>
-          <div class="day-includes" style="margin-top:18px;">Includes</div>
-          <ul class="day-list">
-            <li>Guided Reprogramming Activation</li>
-            <li>Identity Shift Audio Experience</li>
-          </ul>
-          <div class="day-closer">Manifestation starts with what your subconscious mind believes is safe to receive.</div>
-        </div>
-
-        <!-- DAY 3 -->
-        <div class="day-card">
-          <div class="day-num">Day Three</div>
-          <div class="day-title">Who Am I <em>Becoming?</em></div>
-          <p class="day-desc">Step into the next version of yourself — intentionally.</p>
-          <div class="day-includes">You Will Create</div>
-          <ul class="day-list">
-            <li>Your new identity standards</li>
-            <li>Your core values</li>
-            <li>Your personal mantras</li>
-            <li>Your Identity Declaration</li>
-          </ul>
-          <div class="day-closer">The shift from "trying to manifest" — to <em style="color:var(--moon);">becoming the woman who naturally attracts more.</em></div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ NOT JUST A JOURNAL ============ -->
-  <section>
-    <div class="container">
-      <div class="box">
-        <div class="eyebrow section-eyebrow">More Than A Workbook</div>
-        <h2 class="section-title">This isn't just<br><em class="italic-accent">a journal.</em></h2>
-        <p class="section-lead">It's an interactive identity experience. Inside, you'll receive:</p>
-
-        <div class="features-grid">
-          <div class="feature-card">
-            <span class="icon">🌙</span>
-            <span class="label">Subconscious Programming Audios</span>
-          </div>
-          <div class="feature-card">
-            <span class="icon">🔮</span>
-            <span class="label">Manifestation Activations</span>
-          </div>
-          <div class="feature-card">
-            <span class="icon">✦</span>
-            <span class="label">Deep Reflection Prompts</span>
-          </div>
-          <div class="feature-card">
-            <span class="icon">👑</span>
-            <span class="label">Identity Rewiring Exercises</span>
-          </div>
-          <div class="feature-card">
-            <span class="icon">🕯️</span>
-            <span class="label">Emotional Regulation Support</span>
-          </div>
-          <div class="feature-card">
-            <span class="icon">⭐</span>
-            <span class="label">Energetic Recalibration Tools</span>
-          </div>
-        </div>
-
-        <p style="text-align:center;margin-top:30px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--accent-lt);line-height:1.5;">
-          Designed to help you feel different —<br>so you can finally create different.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ BADDIE SOCIETY BONUS ============ -->
-  <section>
-    <div class="container">
-      <div class="box">
-        <div class="eyebrow section-eyebrow" style="color:var(--detail);">Plus — Bonus Access</div>
-        <h2 class="section-title">The full<br><em class="italic-accent">Baddie Society.</em></h2>
-        <p class="section-lead">When you join, you also unlock access to the full Skool community — packed with tools for manifestation, identity work, subconscious rewiring, feminine leadership, and business energetics.</p>
-
-        <ul class="society-list">
-          <li>The Rich Girl Reset audio series</li>
-          <li>EFT Vault</li>
-          <li>Biz Baddie Manifestation Journal</li>
-          <li>Money Block Removal tools</li>
-          <li>Consult the Oracle</li>
-          <li>Shadow to Sovereign Oracle Deck</li>
-          <li>Weekly drops + new activations</li>
-          <li>Additional premium resources + upgrades</li>
-        </ul>
-
-        <p style="text-align:center;margin-top:28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--moon);line-height:1.55;">
-          For the woman who is done playing small —<br>and ready to become <em style="color:var(--accent-lt);">fully available for more.</em>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ WHO THIS IS FOR ============ -->
-  <section>
-    <div class="container">
-      <div class="box">
-        <div class="eyebrow section-eyebrow">Is This For You?</div>
-        <h2 class="section-title">This is for<br><em class="italic-accent">the woman who…</em></h2>
-
-        <ul class="who-list">
-          <li>Keeps repeating the same emotional cycles</li>
-          <li>Knows she's meant for more</li>
-          <li>Struggles with inconsistency or self-sabotage</li>
-          <li>Wants deeper self-worth + self-trust</li>
-          <li>Is ready to stop operating from survival mode</li>
-          <li>Desires more abundance, love, visibility, peace, and overflow</li>
-          <li>Is ready to embody a completely new version of herself</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ NEW IDENTITY REQUIRED ============ -->
-  <section>
-    <div class="container">
-      <div class="box" style="text-align:center;">
-        <div class="eyebrow section-eyebrow">The Truth</div>
-        <h2 class="section-title">Your next reality<br>requires<br><em class="italic-accent">a new identity.</em></h2>
-        <p style="font-size:17px;color:var(--txt-sec);line-height:1.65;max-width:520px;margin:0 auto;">
-          You cannot manifest a new life while emotionally attached to the old version of you.
-        </p>
-        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--moon);margin-top:22px;line-height:1.5;">
-          The Identity Detox helps you release her —<br>
-          <em style="color:var(--accent-lt);">so you can become available for more.</em>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider container">✦ &nbsp;✦&nbsp; ✦</div>
-
-  <!-- ============ FINAL CTA ============ -->
-  <section class="final-cta" id="join">
-    <div class="container">
-      <div class="box">
-        <div class="eyebrow section-eyebrow">Begin Now</div>
-        <h2>The Identity<br><em class="italic-accent">Detox.</em></h2>
-        <div class="price-big">$27</div>
-        <div class="price-label">One Time · Instant Access</div>
-
-        <ul class="includes">
-          <li>3-Day Interactive Identity Experience</li>
-          <li>Guided Audio Activations</li>
-          <li>Identity Workbook + Prompts</li>
-          <li>Full Baddie Society Access</li>
-          <li>Lifetime Access</li>
-        </ul>
-
-        <a href="#" class="cta">Start Your Identity Shift Now</a>
-        <span class="cta-sub">Keyword: DETOX</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    <div class="container">
-      <span class="footer-text">Badass Alchemy · Baddie Society · Beautiful Badass</span>
-    </div>
-  </footer>
-
+<!-- ============ PROMO BAR ============ -->
+<div class="promo-bar">
+  <span>✦</span>
+  <span class="sep">·</span>
+  Stop Manifesting From Survival Mode
+  <span class="sep">·</span>
+  The Identity Detox
+  <span class="sep">·</span>
+  $27 One Time
+  <span class="sep">·</span>
+  <span>✦</span>
 </div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-logo">Badass <em>Alchemy</em></div>
+  <a href="#join" class="nav-cta">Get Access — $27</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-eyebrow">Badass Alchemy · The Identity Detox</div>
+  <h1>
+    You've been performing<br>
+    the version of you that <em>survived.</em><br>
+    It's time to become the one<br>
+    who actually <em>receives.</em>
+  </h1>
+  <p class="hero-sub">
+    A 3-day subconscious reset to release the identity built from scarcity, inconsistency, and self-betrayal — so you can finally become available for the life you keep trying to call in.
+  </p>
+  <div class="hero-cta-row">
+    <div class="price-pill">
+      <span class="currency">$</span>
+      <span class="num">27</span>
+      <span class="label">One Time · Instant Access</span>
+    </div>
+    <a href="#join" class="btn-primary">I'm Choosing Her <span class="arrow">→</span></a>
+    <span class="hero-meta">3 Days · Lifetime Access · Hosted on Skool</span>
+  </div>
+</section>
+
+<!-- ============ CHAPTER RIBBON ============ -->
+<div class="ribbon">
+  <div class="ribbon-inner">
+    <span class="ribbon-item">Release Survival Mode</span>
+    <span class="ribbon-sep">✦</span>
+    <span class="ribbon-item">Rewire Your Identity</span>
+    <span class="ribbon-sep">✦</span>
+    <span class="ribbon-item">Reset The Frequency</span>
+    <span class="ribbon-sep">✦</span>
+    <span class="ribbon-item">Stop Self-Betraying</span>
+    <span class="ribbon-sep">✦</span>
+    <span class="ribbon-item">Become Her</span>
+  </div>
+</div>
+
+<!-- ============ THESIS ============ -->
+<section class="thesis">
+  <div class="thesis-eyebrow">
+    Badass Alchemy <span class="dot">·</span> The Identity Detox
+  </div>
+
+  <h2 class="thesis-h">
+    You've done <em>everything right.</em><br>
+    Nothing is <em>changing.</em><br>
+    Here's why.
+  </h2>
+
+  <p class="thesis-body">
+    The mindset work. The affirmations. The courses. The journaling. The vision boards. And you keep arriving at the same patterns — inconsistent income, the wrong men, the wrong rooms, and the same self-doubt that makes you question everything you already know.
+  </p>
+
+  <div class="thesis-callout">
+    You don't have a <em>strategy</em> problem.<br>
+    You have an <em>identity</em> problem.
+  </div>
+
+  <p class="thesis-body" style="margin-bottom:0;">
+    You're manifesting from survival mode. From self-doubt. From an identity that was built to get through life — not to receive everything it's worth. And until you change <em>who you're being</em> on the inside, nothing on the outside will permanently change.
+  </p>
+
+  <div class="thesis-resolve">
+    The Identity Detox is where<br>
+    you <em>fix the root.</em>
+  </div>
+
+  <p class="thesis-resolve-body">
+    Subconscious reprogramming. Identity excavation. Belief rewiring. The actual work that rewires the signal you've been broadcasting. <strong>For $27.</strong>
+  </p>
+</section>
+
+<!-- ============ MID PRICE CTA ============ -->
+<section class="price-block">
+  <div class="price-card">
+    <span class="num"><span class="c">$</span>27</span>
+    <span class="meta"><strong>One Time</strong>Cancel anytime · Instant access</span>
+  </div>
+  <br>
+  <a href="#join" class="btn-primary">Begin The Detox <span class="arrow">→</span></a>
+  <div class="meta-row">
+    Instant access <span class="sep">·</span> Lifetime <span class="sep">·</span> Hosted on Skool
+  </div>
+</section>
+
+<!-- ============ DELIVERABLES ============ -->
+<section class="deliverables">
+  <div class="deliverables-header">
+    <div class="eyebrow eyebrow-center">What's Inside</div>
+    <h2 class="section-h">Everything you need.<br><em>One identity reset.</em></h2>
+    <p>Three days of guided identity work + the full Baddie Society. Instant access the moment you join.</p>
+  </div>
+
+  <div class="deliv-grid">
+
+    <div class="deliv-card">
+      <div class="deliv-card-top">
+        <span class="deliv-numeral">I.</span>
+        <h4>Day One</h4>
+        <span class="deliv-tag">Who Have I Been</span>
+      </div>
+      <div class="deliv-card-body">
+        <div class="small-mark">— Day One —</div>
+        <h5>Who Have I Been?</h5>
+        <p>Identify the emotional patterns and survival versions of yourself running your life behind the scenes. <strong>Pattern Picker Exercise + Story Release + Subconscious Activation Audio.</strong></p>
+      </div>
+    </div>
+
+    <div class="deliv-card">
+      <div class="deliv-card-top">
+        <span class="deliv-numeral">II.</span>
+        <h4>Day Two</h4>
+        <span class="deliv-tag">What's Stopping Me</span>
+      </div>
+      <div class="deliv-card-body">
+        <div class="small-mark">— Day Two —</div>
+        <h5>What Is Stopping Me?</h5>
+        <p>Expose the subconscious beliefs controlling your money, relationships, and self-worth. <strong>Rewrite them in real time + Guided Reprogramming Activation.</strong></p>
+      </div>
+    </div>
+
+    <div class="deliv-card">
+      <div class="deliv-card-top">
+        <span class="deliv-numeral">III.</span>
+        <h4>Day Three</h4>
+        <span class="deliv-tag">Who I'm Becoming</span>
+      </div>
+      <div class="deliv-card-body">
+        <div class="small-mark">— Day Three —</div>
+        <h5>Who Am I Becoming?</h5>
+        <p>Step into her — intentionally. <strong>Identity Declaration, Core Values excavation, personal mantras, and the woman who naturally attracts more.</strong></p>
+      </div>
+    </div>
+
+    <div class="deliv-card">
+      <div class="deliv-card-top">
+        <span class="deliv-ornament">❦</span>
+        <h4>Belief Reframe Chart</h4>
+        <span class="deliv-tag">Real-Time Tool</span>
+      </div>
+      <div class="deliv-card-body">
+        <div class="small-mark">— The Tool —</div>
+        <h5>Belief Reframe Chart</h5>
+        <p>A tool to catch and flip scarcity thinking the moment it shows up. <strong>Real-time identity recalibration you can use forever.</strong></p>
+      </div>
+    </div>
+
+    <div class="deliv-card">
+      <div class="deliv-card-top">
+        <span class="deliv-ornament">❈</span>
+        <h4>Activation Audios</h4>
+        <span class="deliv-tag">Custom Tracks</span>
+      </div>
+      <div class="deliv-card-body">
+        <div class="small-mark">— Audio —</div>
+        <h5>Meditation Activation Tracks</h5>
+        <p>Custom audio recorded by Danielle. <strong>Speaks directly to the nervous system to anchor the new identity into your body.</strong></p>
+      </div>
+    </div>
+
+    <div class="deliv-card">
+      <div class="deliv-card-top">
+        <span class="deliv-ornament">✦</span>
+        <h4>The Baddie Society</h4>
+        <span class="deliv-tag">Skool Access</span>
+      </div>
+      <div class="deliv-card-body">
+        <div class="small-mark">— Community —</div>
+        <h5>Full Baddie Society Access</h5>
+        <p>The private Skool community — including the free <strong>5-Day Rich Girl Reset</strong>, weekly drops, and the full vault of identity tools.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ BOBBIE FEATURED ============ -->
+<section class="bobbie-section">
+  <div class="bobbie-header">
+    <div class="eyebrow eyebrow-center">Real Women · Real Results</div>
+    <h2 class="section-h">She felt it before<br>she could <em>explain it.</em></h2>
+  </div>
+
+  <div class="bobbie-feature">
+    <div class="bobbie-content">
+      <div class="micro">First Identity Detox Client</div>
+      <div class="bobbie-quote">"I got the <em>fucking job</em> I wanted. Nailed it."</div>
+      <p class="bobbie-body">
+        Bobbie was my first-ever Identity Detox client. She came in underpaid, undervalued, and tired of waiting to be chosen. She had the skills. What she didn't have was the identity that matched them.
+      </p>
+      <p class="bobbie-body">
+        After the work — the actual identity reset, not another mindset reframe — she walked into her interviews as the woman who already had the offer. Commissioning managers flew in from Portland to hand her the letter.
+      </p>
+      <p class="bobbie-secondary-quote">
+        "No AI needed. Just skills and my beautiful smile."
+      </p>
+      <div class="bobbie-attr">— Bobbie</div>
+    </div>
+
+    <div class="bobbie-visual">
+      <div class="bobbie-portrait">
+        <img src="assets/bobbie-portrait.jpg" alt="Bobbie, first Identity Detox client" />
+      </div>
+      <div class="bobbie-screenshot">
+        <img src="assets/bobbie-text.jpg" alt="Real text message from Bobbie: I got the fucking job I wanted. Commissioning managers fly in Tuesday from Portland to give me the official letter. Nailed it!" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DM TESTIMONIAL COLLAGE ============ -->
+<section class="testimonials-collage">
+  <div class="testi-header">
+    <div class="eyebrow eyebrow-center">Real DMs · Real Women</div>
+    <h2 class="section-h">They felt it<br><em>before they could explain it.</em></h2>
+    <p>Unfiltered messages from women inside the Baddie Society and the Identity Detox.</p>
+  </div>
+
+  <div class="testi-collage">
+    <div class="testi-tile tall">
+      <div class="mark">"</div>
+      <div class="label">DM Screenshot 01</div>
+      <div class="quote">"Love the Identity Detox. <em>It was just me changing how I show up</em> and believe in myself. I went from scarcity to a way more abundant belief system."</div>
+      <div class="attr">— Megan · Business owner & makeup artist</div>
+      <div class="ph-note">Drop screenshot here</div>
+    </div>
+
+    <div class="testi-tile t-md">
+      <div class="mark">"</div>
+      <div class="label">DM Screenshot 02</div>
+      <div class="quote">"<em>I feel like I am coming back to life</em> — becoming more self-aware, finally waking up. A stronger, more empowered version of myself."</div>
+      <div class="attr">— Anonymous · Skool DM</div>
+      <div class="ph-note">Drop screenshot here</div>
+    </div>
+
+    <div class="testi-tile short">
+      <div class="mark">"</div>
+      <div class="label">DM Screenshot 03</div>
+      <div class="quote">"<em>I just listened — it's so inspirational and positive.</em> Very uplifting. Positive vibes for sure."</div>
+      <div class="ph-note">Drop screenshot here</div>
+    </div>
+
+    <div class="testi-tile t-md">
+      <div class="mark">"</div>
+      <div class="label">DM Screenshot 04</div>
+      <div class="quote">"Thank you for the morning songs and the digital gift you're offering. <em>My depression loves it because it provides positive influence and affirmations.</em>"</div>
+      <div class="ph-note">Drop screenshot here</div>
+    </div>
+
+    <div class="testi-tile wide">
+      <div class="mark">"</div>
+      <div class="label">DM Screenshot 05</div>
+      <div class="quote">"I just spent some time reading your piece — <em>I love these little nuggets of knowledge.</em> You really came through. I'm already writing down some priorities."</div>
+      <div class="ph-note">Drop screenshot here</div>
+    </div>
+
+    <div class="testi-tile tall">
+      <div class="mark">"</div>
+      <div class="label">DM Screenshot 06</div>
+      <div class="quote">"Since I got the Abundance PDF and did the prompts as well as listening to the abundance track daily — <em>I've manifested more clients, more income, and it empowered me</em>."</div>
+      <div class="attr">— Skool member</div>
+      <div class="ph-note">Drop screenshot here</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="faq-header">
+    <div class="eyebrow eyebrow-center">Questions</div>
+    <h2 class="section-h">Everything you<br><em>need to know.</em></h2>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>What's inside the Identity Detox?</summary>
+      <div class="faq-body">Three deep-dive modules of guided journal prompts, powerful questions, and identity excavation exercises — plus your Belief Reframe Chart, Identity Declaration, Core Values excavation, and custom meditation activation tracks made by Danielle. All hosted inside the Baddie Society on Skool.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What is the Baddie Society?</summary>
+      <div class="faq-body">Danielle's private Skool community for women who are raising their frequency, releasing scarcity, and building a life that matches who they actually are. When you join the Identity Detox, you get full community access — including the free 5-Day Rich Girl Reset.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How is this different from other manifestation programs?</summary>
+      <div class="faq-body">Most manifestation programs teach you what to think. This one goes into who you believe you are — the subconscious identity layer that determines what you can actually receive. It's the missing piece most programs never touch.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How long does this take?</summary>
+      <div class="faq-body">Three days, roughly 30–45 minutes per day. The work is designed to be felt, not rushed. You have lifetime access, so you can revisit the audios and prompts whenever you need to.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Is there a refund policy?</summary>
+      <div class="faq-body">No refunds on digital modules and products. If you have any issues accessing your materials, reach out and we'll take care of you.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FINAL CLOSE ============ -->
+<section class="final-close" id="join">
+  <div class="inner">
+    <h2>You already know<br>you're meant<br>for more.<em>Stop waiting to feel ready.</em></h2>
+    <p class="sub">
+      $27. Three days. One identity reset. The woman who keeps almost arriving is one decision away from becoming the one who receives. <strong>Make it.</strong>
+    </p>
+    <div class="price-pill">
+      <span class="currency">$</span>
+      <span class="num">27</span>
+      <span class="label">One Time · Lifetime Access</span>
+    </div>
+    <br>
+    <a href="#" class="btn-primary">I'm Done Surviving <span class="arrow">→</span></a>
+    <div class="meta-row">
+      Instant Access · Hosted on Skool · Keyword: DETOX
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Badass <em>Alchemy</em></div>
+    <div class="footer-meta">Baddie Society · Beautiful Badass · © 2026</div>
+  </div>
+</footer>
+
 </body>
 </html>
