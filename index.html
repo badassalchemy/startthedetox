@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Identity Detox · Badass Alchemy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0610;
+    --bg-mid: #180B1E;
+    --dark: #0D0618;
+    --dark-mid: #461D34;
+    --accent: #733960;
+    --accent-lt: #B16AA2;
+    --tertiary: #9B4E7A;
+    --detail: #C4789A;
+    --violet: #24123F;
+    --orchid: #C6B6CD;
+    --moon: #F7EDF1;
+    --txt: #F7EDF1;
+    --txt-sec: #E8D4E0;
+    --txt-muted: #C4A0B8;
+    --txt-faded: #8A6080;
+    --border: rgba(179,106,162,0.25);
+    --border-bright: rgba(196,120,154,0.45);
+    --box-bg: rgba(13, 6, 24, 0.78);
+    --box-bg-strong: rgba(13, 6, 24, 0.88);
+    --box-bg-card: rgba(24, 11, 30, 0.82);
+
+    /* IMPORTANT: GitHub blob URLs do NOT serve images directly.
+       Using raw.githubusercontent.com instead. If this fails to load,
+       replace with a CDN-hosted version (Cloudinary, Imgur, your own host). */
+    --hero-image: url('https://raw.githubusercontent.com/badassalchemy/imageassets/main/mainbackground1.jpg');
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--txt-sec);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--accent); color: var(--moon); }
+
+  /* ============ BACKGROUND IMAGE LAYER ============ */
+  .page {
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(180deg, rgba(13,6,16,0.55) 0%, rgba(13,6,16,0.65) 100%),
+      var(--hero-image);
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  /* Fallback gradient if image doesn't load - still feels on-brand */
+  .page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(115,57,96,0.25), transparent 60%),
+                radial-gradient(ellipse at 20% 70%, rgba(100,30,90,0.22), transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 22px;
+  }
+
+  /* ============ TYPOGRAPHY ============ */
+  h1, h2, h3, .serif {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    color: var(--txt);
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-lt);
+  }
+
+  .italic-accent {
+    font-style: italic;
+    color: var(--accent-lt);
+    font-weight: 400;
+  }
+
+  /* ============ DARK OVERLAY BOX ============ */
+  .box {
+    background: var(--box-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(196,120,154,0.06) inset;
+  }
+
+  .box-card {
+    background: var(--box-bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 20px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 90px 0 70px;
+    text-align: center;
+  }
+
+  .hero .box {
+    padding: 44px 30px;
+    background: var(--box-bg-strong);
+  }
+
+  .hero-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--detail);
+    margin-bottom: 14px;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 22px;
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 7vw, 62px);
+    line-height: 1.05;
+    color: var(--txt);
+    margin-bottom: 22px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-lt);
+    font-weight: 400;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--txt-sec);
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0 auto 28px;
+  }
+
+  .hero-price-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 22px;
+    background: rgba(115,57,96,0.18);
+    border: 1px solid var(--border-bright);
+    border-radius: 50px;
+    margin-bottom: 28px;
+  }
+  .hero-price-row .price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--moon);
+  }
+  .hero-price-row .label {
+    font-size: 14px;
+    color: var(--txt-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ============ CTA BUTTON ============ */
+  .cta {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--moon);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--dark-mid) 100%);
+    padding: 18px 42px;
+    border-radius: 50px;
+    border: 1px solid var(--border-bright);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 10px 30px rgba(115,57,96,0.4), 0 0 0 1px rgba(196,120,154,0.15) inset;
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(115,57,96,0.55), 0 0 0 1px rgba(196,120,154,0.25) inset;
+  }
+
+  .cta-sub {
+    display: block;
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--txt-muted);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ============ SECTION SPACING ============ */
+  section { padding: 50px 0; position: relative; }
+
+  .section-title {
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .section-eyebrow {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .section-lead {
+    text-align: center;
+    font-size: 16px;
+    color: var(--txt-sec);
+    max-width: 580px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+  }
+
+  /* ============ PROBLEM SECTION ============ */
+  .problem .box p {
+    font-size: 17px;
+    color: var(--txt-sec);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .problem .box p:last-child { margin-bottom: 0; }
+  .problem .box p strong {
+    color: var(--moon);
+    font-weight: 600;
+  }
+
+  .arrow-list {
+    list-style: none;
+    margin: 22px 0;
+  }
+  .arrow-list li {
+    padding: 12px 0 12px 32px;
+    position: relative;
+    font-size: 16px;
+    color: var(--txt-sec);
+    border-bottom: 1px solid rgba(179,106,162,0.12);
+  }
+  .arrow-list li:last-child { border-bottom: none; }
+  .arrow-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    color: var(--accent-lt);
+    font-size: 14px;
+  }
+
+  /* ============ DAYS SECTION ============ */
+  .days-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 24px;
+  }
+
+  .day-card {
+    background: var(--box-bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px 26px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-lt), var(--detail));
+  }
+
+  .day-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-lt);
+    margin-bottom: 8px;
+  }
+
+  .day-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .day-title em {
+    font-style: italic;
+    color: var(--accent-lt);
+    font-weight: 400;
+  }
+
+  .day-desc {
+    font-size: 15px;
+    color: var(--txt-sec);
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+
+  .day-includes {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--detail);
+    margin-bottom: 10px;
+  }
+
+  .day-list {
+    list-style: none;
+  }
+  .day-list li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 15px;
+    color: var(--txt-sec);
+  }
+  .day-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--tertiary);
+    font-size: 9px;
+    top: 10px;
+  }
+
+  .day-closer {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(179,106,162,0.15);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--accent-lt);
+    line-height: 1.5;
+  }
+
+  /* ============ WHAT YOU GET GRID ============ */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .feature-card {
+    background: var(--box-bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 18px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    position: relative;
+  }
+  .feature-card .icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .feature-card .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--txt);
+    line-height: 1.4;
+  }
+
+  /* ============ BADDIE SOCIETY ============ */
+  .society-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .society-list li {
+    padding: 14px 16px 14px 42px;
+    background: rgba(24, 11, 30, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    position: relative;
+    font-size: 15px;
+    color: var(--txt-sec);
+  }
+  .society-list li::before {
+    content: '✧';
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    color: var(--detail);
+    font-size: 14px;
+  }
+
+  /* ============ WHO IT'S FOR ============ */
+  .who-list {
+    list-style: none;
+    margin-top: 18px;
+  }
+  .who-list li {
+    padding: 14px 0 14px 36px;
+    position: relative;
+    font-size: 16px;
+    color: var(--txt-sec);
+    border-bottom: 1px solid rgba(179,106,162,0.12);
+    line-height: 1.55;
+  }
+  .who-list li:last-child { border-bottom: none; }
+  .who-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    color: var(--accent-lt);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* ============ DIVIDER ============ */
+  .divider {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 18px;
+    color: var(--accent-lt);
+    letter-spacing: 16px;
+  }
+
+  /* ============ FINAL CTA ============ */
+  .final-cta {
+    padding: 70px 0 90px;
+    text-align: center;
+  }
+  .final-cta .box {
+    padding: 50px 32px;
+    background: var(--box-bg-strong);
+  }
+  .final-cta h2 {
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 18px;
+  }
+  .final-cta .price-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--moon);
+    line-height: 1;
+    margin: 18px 0 8px;
+  }
+  .final-cta .price-label {
+    font-size: 14px;
+    color: var(--txt-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 26px;
+  }
+  .final-cta .includes {
+    list-style: none;
+    margin: 24px auto 30px;
+    max-width: 360px;
+    text-align: left;
+  }
+  .final-cta .includes li {
+    padding: 8px 0 8px 30px;
+    position: relative;
+    font-size: 15px;
+    color: var(--txt-sec);
+  }
+  .final-cta .includes li::before {
+    content: '✦';
+    position: absolute;
+    left: 8px;
+    color: var(--accent-lt);
+  }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    background: rgba(13, 6, 16, 0.92);
+    padding: 24px 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+  }
+  .footer-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    color: var(--txt-faded);
+    text-transform: uppercase;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .container { padding: 0 16px; }
+    .hero { padding: 60px 0 50px; }
+    .hero .box { padding: 32px 22px; }
+    .box { padding: 26px 22px; }
+    .day-card { padding: 26px 22px; }
+    .day-title { font-size: 24px; }
+    .features-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .final-cta .price-big { font-size: 52px; }
+    .final-cta .box { padding: 38px 22px; }
+    section { padding: 40px 0; }
+
+    /* Disable fixed background on mobile for performance */
+    .page { background-attachment: scroll; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container">
+      <div class="box">
+        <div class="hero-tag">Badass Alchemy · Baddie Society</div>
+        <div class="eyebrow hero-eyebrow">The Identity Detox</div>
+        <h1>You were never<br>the problem.<br><em>You were just rehearsing<br>the wrong identity.</em></h1>
+        <p class="hero-sub">A 3-day interactive identity shift for the woman who's done healing in circles — and ready to become the version of herself that naturally attracts more.</p>
+        <div class="hero-price-row">
+          <span class="price">$27</span>
+          <span class="label">Instant Access</span>
+        </div>
+        <br>
+        <a href="#join" class="cta">Start Your Identity Shift</a>
+        <span class="cta-sub">3 Days · Instant Access · Skool Community Included</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM ============ -->
+  <section class="problem">
+    <div class="container">
+      <div class="box">
+        <div class="eyebrow section-eyebrow">Read This First</div>
+        <h2 class="section-title">You don't need<br><em class="italic-accent">another mindset lecture.</em></h2>
+        <p>You don't need to spend 6 months "healing" before you allow yourself to receive more.</p>
+        <p>And you definitely don't need to keep repeating the same subconscious patterns while trying to create a different reality.</p>
+        <p><strong>You need a new identity.</strong></p>
+        <p>Because your current reality is being created by:</p>
+        <ul class="arrow-list">
+          <li>The version of you you've normalized</li>
+          <li>The beliefs you keep rehearsing</li>
+          <li>The emotional patterns your nervous system keeps returning to</li>
+        </ul>
+        <p>The Identity Detox was designed to interrupt that cycle <strong>fast.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT THIS DOES ============ -->
+  <section>
+    <div class="container">
+      <div class="box">
+        <div class="eyebrow section-eyebrow">What This Is</div>
+        <h2 class="section-title">A powerful 3-day<br>interactive experience.</h2>
+        <p class="section-lead">Unlike most mindset work — this is simple, immersive, emotional, and easy to actually complete.</p>
+
+        <ul class="who-list" style="max-width:520px;margin:24px auto 0;">
+          <li>Release outdated identities</li>
+          <li>Reprogram limiting beliefs</li>
+          <li>Shift your self-concept</li>
+          <li>Regulate your energy</li>
+          <li>Embody the woman who attracts more naturally</li>
+        </ul>
+
+        <p style="text-align:center;margin-top:28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--accent-lt);line-height:1.5;">
+          No endless journaling.<br>
+          No overcomplicated healing work.<br>
+          No digging through your childhood for 47 hours.
+        </p>
+        <p style="text-align:center;margin-top:18px;font-size:16px;color:var(--moon);font-weight:600;letter-spacing:1px;">
+          Just deep identity recalibration.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE 3 DAYS ============ -->
+  <section>
+    <div class="container">
+      <div class="eyebrow section-eyebrow">What's Inside</div>
+      <h2 class="section-title">The 3-Day<br><em class="italic-accent">Identity Shift.</em></h2>
+
+      <div class="days-grid">
+
+        <!-- DAY 1 -->
+        <div class="day-card">
+          <div class="day-num">Day One</div>
+          <div class="day-title">Who Have <em>I Been?</em></div>
+          <p class="day-desc">Identify the emotional patterns, identities, and survival versions of yourself that are still running your life behind the scenes.</p>
+          <div class="day-includes">Inside</div>
+          <ul class="day-list">
+            <li>Pattern Picker Exercise</li>
+            <li>Identity Awareness Prompts</li>
+            <li>Story Release Process</li>
+            <li>Deep Subconscious Activation Audio</li>
+          </ul>
+          <div class="day-closer">This is where you stop romanticizing the version of you that no longer fits.</div>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="day-card">
+          <div class="day-num">Day Two</div>
+          <div class="day-title">What Is <em>Stopping Me?</em></div>
+          <p class="day-desc">Expose the subconscious beliefs quietly controlling your decisions, standards, relationships, money, and self-worth.</p>
+          <div class="day-includes">You Will</div>
+          <ul class="day-list">
+            <li>Identify your core limiting beliefs</li>
+            <li>Rewrite them in real time</li>
+            <li>Record your new identity beliefs out loud</li>
+            <li>Begin nervous system reprogramming</li>
+          </ul>
+          <div class="day-includes" style="margin-top:18px;">Includes</div>
+          <ul class="day-list">
+            <li>Guided Reprogramming Activation</li>
+            <li>Identity Shift Audio Experience</li>
+          </ul>
+          <div class="day-closer">Manifestation starts with what your subconscious mind believes is safe to receive.</div>
+        </div>
+
+        <!-- DAY 3 -->
+        <div class="day-card">
+          <div class="day-num">Day Three</div>
+          <div class="day-title">Who Am I <em>Becoming?</em></div>
+          <p class="day-desc">Step into the next version of yourself — intentionally.</p>
+          <div class="day-includes">You Will Create</div>
+          <ul class="day-list">
+            <li>Your new identity standards</li>
+            <li>Your core values</li>
+            <li>Your personal mantras</li>
+            <li>Your Identity Declaration</li>
+          </ul>
+          <div class="day-closer">The shift from "trying to manifest" — to <em style="color:var(--moon);">becoming the woman who naturally attracts more.</em></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOT JUST A JOURNAL ============ -->
+  <section>
+    <div class="container">
+      <div class="box">
+        <div class="eyebrow section-eyebrow">More Than A Workbook</div>
+        <h2 class="section-title">This isn't just<br><em class="italic-accent">a journal.</em></h2>
+        <p class="section-lead">It's an interactive identity experience. Inside, you'll receive:</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="icon">🌙</span>
+            <span class="label">Subconscious Programming Audios</span>
+          </div>
+          <div class="feature-card">
+            <span class="icon">🔮</span>
+            <span class="label">Manifestation Activations</span>
+          </div>
+          <div class="feature-card">
+            <span class="icon">✦</span>
+            <span class="label">Deep Reflection Prompts</span>
+          </div>
+          <div class="feature-card">
+            <span class="icon">👑</span>
+            <span class="label">Identity Rewiring Exercises</span>
+          </div>
+          <div class="feature-card">
+            <span class="icon">🕯️</span>
+            <span class="label">Emotional Regulation Support</span>
+          </div>
+          <div class="feature-card">
+            <span class="icon">⭐</span>
+            <span class="label">Energetic Recalibration Tools</span>
+          </div>
+        </div>
+
+        <p style="text-align:center;margin-top:30px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--accent-lt);line-height:1.5;">
+          Designed to help you feel different —<br>so you can finally create different.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BADDIE SOCIETY BONUS ============ -->
+  <section>
+    <div class="container">
+      <div class="box">
+        <div class="eyebrow section-eyebrow" style="color:var(--detail);">Plus — Bonus Access</div>
+        <h2 class="section-title">The full<br><em class="italic-accent">Baddie Society.</em></h2>
+        <p class="section-lead">When you join, you also unlock access to the full Skool community — packed with tools for manifestation, identity work, subconscious rewiring, feminine leadership, and business energetics.</p>
+
+        <ul class="society-list">
+          <li>The Rich Girl Reset audio series</li>
+          <li>EFT Vault</li>
+          <li>Biz Baddie Manifestation Journal</li>
+          <li>Money Block Removal tools</li>
+          <li>Consult the Oracle</li>
+          <li>Shadow to Sovereign Oracle Deck</li>
+          <li>Weekly drops + new activations</li>
+          <li>Additional premium resources + upgrades</li>
+        </ul>
+
+        <p style="text-align:center;margin-top:28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--moon);line-height:1.55;">
+          For the woman who is done playing small —<br>and ready to become <em style="color:var(--accent-lt);">fully available for more.</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHO THIS IS FOR ============ -->
+  <section>
+    <div class="container">
+      <div class="box">
+        <div class="eyebrow section-eyebrow">Is This For You?</div>
+        <h2 class="section-title">This is for<br><em class="italic-accent">the woman who…</em></h2>
+
+        <ul class="who-list">
+          <li>Keeps repeating the same emotional cycles</li>
+          <li>Knows she's meant for more</li>
+          <li>Struggles with inconsistency or self-sabotage</li>
+          <li>Wants deeper self-worth + self-trust</li>
+          <li>Is ready to stop operating from survival mode</li>
+          <li>Desires more abundance, love, visibility, peace, and overflow</li>
+          <li>Is ready to embody a completely new version of herself</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEW IDENTITY REQUIRED ============ -->
+  <section>
+    <div class="container">
+      <div class="box" style="text-align:center;">
+        <div class="eyebrow section-eyebrow">The Truth</div>
+        <h2 class="section-title">Your next reality<br>requires<br><em class="italic-accent">a new identity.</em></h2>
+        <p style="font-size:17px;color:var(--txt-sec);line-height:1.65;max-width:520px;margin:0 auto;">
+          You cannot manifest a new life while emotionally attached to the old version of you.
+        </p>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--moon);margin-top:22px;line-height:1.5;">
+          The Identity Detox helps you release her —<br>
+          <em style="color:var(--accent-lt);">so you can become available for more.</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider container">✦ &nbsp;✦&nbsp; ✦</div>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final-cta" id="join">
+    <div class="container">
+      <div class="box">
+        <div class="eyebrow section-eyebrow">Begin Now</div>
+        <h2>The Identity<br><em class="italic-accent">Detox.</em></h2>
+        <div class="price-big">$27</div>
+        <div class="price-label">One Time · Instant Access</div>
+
+        <ul class="includes">
+          <li>3-Day Interactive Identity Experience</li>
+          <li>Guided Audio Activations</li>
+          <li>Identity Workbook + Prompts</li>
+          <li>Full Baddie Society Access</li>
+          <li>Lifetime Access</li>
+        </ul>
+
+        <a href="#" class="cta">Start Your Identity Shift Now</a>
+        <span class="cta-sub">Keyword: DETOX</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <span class="footer-text">Badass Alchemy · Baddie Society · Beautiful Badass</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
