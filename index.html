@@ -31,7 +31,7 @@
     --shadow:    rgba(36,10,25,0.5);
 
     /* Background image — baked into entire page */
-    --hero-image: url('https://raw.githubusercontent.com/badassalchemy/imageassets/main/mainbackground1.jpg');
+    --hero-image: url('https://github.com/badassalchemy/imageassets/blob/main/mainbackground1.jpg?raw=true');
 
     --serif: 'Cormorant Garamond', 'Times New Roman', serif;
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -564,6 +564,14 @@
     margin: 0 auto;
     box-shadow: 0 30px 80px rgba(0,0,0,0.4);
   }
+
+  /* Deanna mirrors Bobbie — visual on left, content on right */
+  .bobbie-feature.deanna-flip .bobbie-visual { order: 1; }
+  .bobbie-feature.deanna-flip .bobbie-content { order: 2; }
+  /* Mirror the overlap so portrait sits top-RIGHT, screenshot bottom-LEFT */
+  .bobbie-feature.deanna-flip .bobbie-portrait { left: auto; right: 0; }
+  .bobbie-feature.deanna-flip .bobbie-screenshot { right: auto; left: 0; }
+  .bobbie-feature.deanna-flip .bobbie-portrait::after { left: auto; right: 14px; }
   .bobbie-content .micro {
     font-family: var(--sans); font-size: 13px;
     letter-spacing: 0.28em; text-transform: uppercase;
@@ -708,43 +716,52 @@
 
   .testi-tile .mark {
     font-family: var(--serif);
-    font-style: italic;
-    font-size: 26px;
+    font-style: normal;
+    font-size: 36px;
     color: var(--accent-lt);
     margin-bottom: 18px;
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 0.6;
+    letter-spacing: -0.05em;
   }
   .testi-tile .label {
     font-family: var(--sans); font-size: 11px;
     letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--txt-faded); margin-bottom: 16px;
-    font-weight: 600;
+    color: var(--txt-faded); margin-bottom: 18px;
+    font-weight: 700;
   }
   .testi-tile .quote {
-    font-family: var(--serif); font-style: italic;
-    font-size: 19px; line-height: 1.5; /* bumped */
-    color: var(--txt); margin-bottom: 14px;
-    font-weight: 600; /* italics bolder */
+    font-family: var(--serif);
+    font-style: normal; /* upright serif now */
+    font-size: 22px; /* bumped up from 19 */
+    line-height: 1.45;
+    color: var(--txt);
+    margin-bottom: 16px;
+    font-weight: 600; /* bolder for readability */
+    letter-spacing: -0.005em;
   }
   .testi-tile .quote em {
     color: var(--detail);
-    font-weight: 700;
+    font-style: normal; /* no italic */
+    font-weight: 700; /* punchier */
   }
   .testi-tile .body {
-    font-family: var(--sans); font-size: 14px;
+    font-family: var(--sans); font-size: 15px;
     line-height: 1.7; color: var(--txt-sec);
-    font-weight: 400;
+    font-weight: 500;
   }
   .testi-tile .attr {
-    font-family: var(--serif); font-size: 16px;
-    font-style: italic; color: var(--accent-lt);
-    margin-top: 14px;
+    font-family: var(--serif); font-size: 17px;
+    font-style: normal;
+    color: var(--accent-lt);
+    margin-top: 16px;
     font-weight: 600;
+    letter-spacing: 0.01em;
   }
   .testi-tile .ph-note {
     font-family: var(--sans); font-size: 11px;
-    color: var(--txt-faded); margin-top: 16px;
-    letter-spacing: 0.1em;
+    color: var(--txt-faded); margin-top: 18px;
+    letter-spacing: 0.12em;
     font-weight: 500;
   }
 
@@ -1127,7 +1144,7 @@
 <!-- ============ BOBBIE FEATURED ============ -->
 <section class="bobbie-section">
   <div class="bobbie-header">
-    <div class="eyebrow eyebrow-center">Real Women · Real Results</div>
+    <div class="eyebrow eyebrow-center">Real Women · Real Transformations</div>
     <h2 class="section-h">She felt it before<br>she could <em>explain it.</em></h2>
   </div>
 
@@ -1149,11 +1166,40 @@
 
     <div class="bobbie-visual">
       <div class="bobbie-portrait">
-        <img src="assets/bobbie-portrait.jpg" alt="Bobbie, first Identity Detox client" />
+        <img src="https://github.com/badassalchemy/imageassets/blob/main/IMG_4216.jpg?raw=true" alt="Bobbie, first Identity Detox client" />
       </div>
       <div class="bobbie-screenshot">
-        <img src="assets/bobbie-text.jpg" alt="Real text message from Bobbie: I got the fucking job I wanted. Commissioning managers fly in Tuesday from Portland to give me the official letter. Nailed it!" />
+        <img src="https://github.com/badassalchemy/imageassets/blob/main/IMG_4009.jpg?raw=true" alt="Real text message from Bobbie: I got the fucking job I wanted. Commissioning managers fly in Tuesday from Portland to give me the official letter. Nailed it!" />
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEANNA FEATURED ============ -->
+<section class="bobbie-section" style="padding-top:0;">
+  <div class="bobbie-feature deanna-flip">
+    <div class="bobbie-visual">
+      <div class="bobbie-portrait">
+        <img src="https://github.com/badassalchemy/imageassets/blob/main/584531016_25384969887764956_991112923801417415_n.jpg?raw=true" alt="Deanna, Identity Detox client" />
+      </div>
+      <div class="bobbie-screenshot">
+        <img src="https://github.com/badassalchemy/imageassets/blob/main/IMG_9363.jpg?raw=true" alt="Real DM from Deanna sharing her transformation" />
+      </div>
+    </div>
+
+    <div class="bobbie-content">
+      <div class="micro">Real Transformation · Identity Detox Client</div>
+      <div class="bobbie-quote">From <em>self-loathing</em> on Facebook — to choosing herself, every day.</div>
+      <p class="bobbie-body">
+        Deanna was the woman posting about how much she hated her life. Self-loathing in public. Stuck in patterns she couldn't name. She'd done the work — courses, therapy, journaling — and still woke up the same.
+      </p>
+      <p class="bobbie-body">
+        What changed wasn't another strategy. It was her identity. The moment that shifted, the relationships shifted. The way she spoke to herself shifted. The way she carried herself in a room shifted. She stopped tolerating less than she deserved — and her life rearranged to match.
+      </p>
+      <p class="bobbie-body" style="color:var(--detail);font-style:italic;font-family:var(--serif);font-size:22px;line-height:1.45;margin-top:26px;font-weight:600;">
+        This is what happens when you stop healing — and start <em style="font-weight:700;">becoming.</em>
+      </p>
+      <div class="bobbie-attr">— Deanna</div>
     </div>
   </div>
 </section>
@@ -1162,8 +1208,8 @@
 <section class="testimonials-collage">
   <div class="testi-header">
     <div class="eyebrow eyebrow-center">Real DMs · Real Women</div>
-    <h2 class="section-h">They felt it<br><em>before they could explain it.</em></h2>
-    <p>Unfiltered messages from women inside the Baddie Society and the Identity Detox.</p>
+    <h2 class="section-h">More words from inside<br><em>the Baddie Society.</em></h2>
+    <p>Unfiltered messages from women doing the actual identity work.</p>
   </div>
 
   <div class="testi-collage">
