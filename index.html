@@ -65,7 +65,7 @@
   img { max-width: 100%; display: block; }
 
   /* ====================================================
-     GLOBAL BAKED BACKGROUND — visible throughout
+     GLOBAL CREAM BACKGROUND — no image, pure ivory
      ==================================================== */
   body::before {
     content: '';
@@ -73,19 +73,18 @@
     inset: 0;
     z-index: -2;
     background-color: var(--bg);
-    background-image: var(--hero-image);
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    /* Subtle warm gradient for depth without an image */
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(196,120,154,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(115,57,96,0.05) 0%, transparent 55%);
   }
   body::after {
     content: '';
     position: fixed;
     inset: 0;
     z-index: -1;
-    /* Cream wash so background image is visible but tinted warmly */
-    background: linear-gradient(180deg, rgba(245,239,232,0.82) 0%, rgba(234,226,216,0.88) 100%);
+    /* Soft ivory gradient — adds depth across the page */
+    background: linear-gradient(180deg, rgba(245,239,232,0.4) 0%, rgba(234,226,216,0.6) 100%);
     pointer-events: none;
   }
 
@@ -163,12 +162,14 @@
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     text-align: center; overflow: hidden;
-    /* No background-image here — body shows through */
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(196,120,154,0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 80%, rgba(115,57,96,0.08) 0%, transparent 50%);
   }
   .hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 0%, transparent 60%, rgba(245,239,232,0.55) 100%);
+    background: linear-gradient(180deg, transparent 0%, transparent 70%, rgba(234,226,216,0.4) 100%);
     pointer-events: none;
   }
   .hero > * { position: relative; z-index: 1; }
@@ -813,8 +814,11 @@
     padding: 200px 36px;
     text-align: center;
     border-top: 1px solid var(--border);
-    background: rgba(245,239,232,0.65);
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(196,120,154,0.10) 0%, transparent 60%),
+      rgba(234,226,216,0.55);
     backdrop-filter: blur(1px);
+    position: relative;
   }
   .final-close .inner {
     max-width: 880px;
