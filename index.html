@@ -9,28 +9,39 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* ===== BRAND PALETTE (locked from brand kit) ===== */
-    --bg:        #0D0610;
-    --bg-mid:    #180B1E;
+    /* ===== CREAM PALETTE — light editorial version ===== */
+    /* Backgrounds */
+    --bg:        #F5EFE8;  /* warm ivory */
+    --bg-mid:    #EAE2D8;  /* slightly deeper cream for section veils */
+    --bg-cream-deep: #E0D5C8;
+    --bg-card:   #FFFAF3;  /* almost white card surfaces */
+
+    /* Brand colors (kept, with --detail deepened for cream contrast) */
     --dark:      #0D0618;
     --dark-mid:  #461D34;
     --accent:    #733960;
-    --accent-lt: #B16AA2;
+    --accent-lt: #9B4E7A;  /* deepened for cream contrast */
     --tertiary:  #9B4E7A;
-    --detail:    #C4789A;
+    --detail:    #9B4E7A;  /* CREAM OVERRIDE - was #C4789A which was too pale on cream */
+    --detail-soft: #C4789A;  /* original Blush still available for highlights */
     --violet:    #24123F;
     --orchid:    #C6B6CD;
     --moon:      #F7EDF1;
-    --txt:       #F7EDF1;
-    --txt-sec:   #E8D4E0;
-    --txt-mid:   #C4A0B8;
-    --txt-faded: #8A6080;
-    --txt-quiet: #5A3A50;
-    --border:    rgba(179,106,162,0.20);
-    --border-bright: rgba(196,120,154,0.45);
-    --shadow:    rgba(36,10,25,0.5);
 
-    /* Background image — baked into entire page */
+    /* Text — dark plums replace the moon palette */
+    --txt:       #2A1424;  /* deep espresso plum */
+    --txt-sec:   #4A2E40;
+    --txt-mid:   #6E4862;
+    --txt-faded: #8A6B7E;
+    --txt-quiet: #A89AA0;
+
+    /* Borders and shadows — softer on light */
+    --border:    rgba(115,57,96,0.18);
+    --border-bright: rgba(115,57,96,0.40);
+    --shadow:    rgba(70,29,52,0.12);
+    --shadow-deep: rgba(70,29,52,0.22);
+
+    /* Background image */
     --hero-image: url('https://github.com/badassalchemy/imageassets/blob/main/mainbackground1.jpg?raw=true');
 
     --serif: 'Cormorant Garamond', 'Times New Roman', serif;
@@ -73,8 +84,8 @@
     position: fixed;
     inset: 0;
     z-index: -1;
-    /* Subtle dark overlay so text stays readable, but image is clearly visible */
-    background: linear-gradient(180deg, rgba(13,6,16,0.55) 0%, rgba(13,6,16,0.72) 100%);
+    /* Cream wash so background image is visible but tinted warmly */
+    background: linear-gradient(180deg, rgba(245,239,232,0.82) 0%, rgba(234,226,216,0.88) 100%);
     pointer-events: none;
   }
 
@@ -102,7 +113,7 @@
   nav {
     position: sticky; top: 0; left: 0; right: 0; z-index: 100;
     padding: 18px 36px;
-    background: rgba(13,6,16,0.78);
+    background: rgba(245,239,232,0.85);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border);
@@ -113,17 +124,17 @@
     color: var(--txt); letter-spacing: 0.02em;
   }
   .nav-logo em {
-    font-style: italic; color: var(--accent-lt);
-    font-weight: 500; /* italics bolder */
+    font-style: italic; color: var(--accent);
+    font-weight: 500;
   }
   .nav-cta {
     font-family: var(--sans); font-size: 13px; font-weight: 600;
     letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--txt); background: transparent;
-    border: 1px solid var(--border-bright); padding: 12px 24px;
+    border: 1px solid var(--accent); padding: 12px 24px;
     cursor: pointer; text-decoration: none; transition: all .25s ease;
   }
-  .nav-cta:hover { background: var(--txt); color: var(--bg); border-color: var(--txt); }
+  .nav-cta:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
   /* ====================================================
      SECTION FOUNDATIONS — transparent so bg shows through
@@ -135,11 +146,11 @@
   }
   /* Soft section veils — let background show but keep text legible */
   .section-veil {
-    background: rgba(13,6,16,0.55);
+    background: rgba(245,239,232,0.78);
     backdrop-filter: blur(2px);
   }
   .section-veil-strong {
-    background: rgba(13,6,16,0.72);
+    background: rgba(234,226,216,0.84);
     backdrop-filter: blur(3px);
   }
   .container { max-width: 1240px; margin: 0 auto; }
@@ -157,7 +168,7 @@
   .hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 0%, transparent 60%, rgba(13,6,16,0.4) 100%);
+    background: linear-gradient(180deg, transparent 0%, transparent 60%, rgba(245,239,232,0.55) 100%);
     pointer-events: none;
   }
   .hero > * { position: relative; z-index: 1; }
@@ -167,7 +178,7 @@
     letter-spacing: 0.36em; text-transform: uppercase;
     color: var(--detail); margin-bottom: 36px;
     opacity: 0; animation: fadeUp .9s ease forwards;
-    text-shadow: 0 2px 20px rgba(13,6,16,0.8);
+    
   }
   .hero h1 {
     font-family: var(--serif); font-weight: 500;
@@ -175,7 +186,7 @@
     line-height: 1.04; letter-spacing: -0.02em;
     color: var(--txt); max-width: 1100px; margin-bottom: 40px;
     opacity: 0; animation: fadeUp 1.1s ease .2s forwards;
-    text-shadow: 0 4px 30px rgba(13,6,16,0.9);
+    
   }
   .hero h1 em {
     font-style: italic;
@@ -187,7 +198,7 @@
     color: var(--txt); max-width: 700px; margin: 0 auto 52px;
     font-weight: 500;
     opacity: 0; animation: fadeUp 1.1s ease .4s forwards;
-    text-shadow: 0 2px 14px rgba(13,6,16,0.7);
+    
   }
   .hero-cta-row {
     display: flex; flex-direction: column; align-items: center; gap: 20px;
@@ -209,8 +220,8 @@
     position: absolute;
     inset: -40px;
     background: radial-gradient(ellipse at center,
-      rgba(196,120,154,0.28) 0%,
-      rgba(115,57,96,0.12) 35%,
+      rgba(115,57,96,0.22) 0%,
+      rgba(155,78,122,0.10) 35%,
       transparent 70%);
     z-index: 0;
     filter: blur(20px);
@@ -222,15 +233,15 @@
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 40px 80px rgba(0,0,0,0.55))
-            drop-shadow(0 0 40px rgba(179,106,162,0.15));
+    filter: drop-shadow(0 40px 60px rgba(70,29,52,0.20))
+            drop-shadow(0 0 30px rgba(115,57,96,0.10));
   }
   .price-pill {
     display: inline-flex; align-items: center; gap: 18px;
     padding: 16px 30px;
     border: 1px solid var(--border-bright);
     border-radius: 60px;
-    background: rgba(13,6,16,0.6);
+    background: rgba(245,239,232,0.80);
     backdrop-filter: blur(10px);
     margin-bottom: 6px;
   }
@@ -269,12 +280,12 @@
     font-family: var(--sans); font-size: 13px;
     letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--txt-sec); font-weight: 500;
-    text-shadow: 0 2px 14px rgba(13,6,16,0.7);
+    
   }
 
   /* ============ CHAPTER RIBBON ============ */
   .ribbon {
-    background: rgba(13,6,16,0.78);
+    background: rgba(245,239,232,0.92);
     backdrop-filter: blur(12px);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -320,7 +331,7 @@
   .thesis {
     padding: 150px 36px 110px;
     text-align: center;
-    background: rgba(13,6,16,0.6);
+    background: rgba(245,239,232,0.80);
     backdrop-filter: blur(2px);
   }
   .thesis-eyebrow {
@@ -406,7 +417,7 @@
   .price-block {
     padding: 110px 36px;
     text-align: center;
-    background: rgba(13,6,16,0.4);
+    background: rgba(245,239,232,0.55);
     backdrop-filter: blur(1px);
   }
   .price-card {
@@ -414,7 +425,7 @@
     padding: 20px 36px;
     border: 1px solid var(--border-bright);
     border-radius: 60px;
-    background: rgba(13,6,16,0.65);
+    background: rgba(245,239,232,0.85);
     backdrop-filter: blur(12px);
     margin-bottom: 26px;
   }
@@ -452,7 +463,7 @@
   /* ============ DELIVERABLES GRID ============ */
   .deliverables {
     padding: 140px 36px;
-    background: rgba(13,6,16,0.7);
+    background: rgba(234,226,216,0.82);
     backdrop-filter: blur(3px);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -478,7 +489,7 @@
     margin: 0 auto;
   }
   .deliv-card {
-    background: rgba(24,11,30,0.85);
+    background: rgba(255,250,243,0.92);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: 18px;
@@ -488,7 +499,7 @@
   .deliv-card:hover {
     border-color: var(--border-bright);
     transform: translateY(-4px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(70,29,52,0.15);
   }
   .deliv-card-top {
     padding: 40px 28px 26px;
@@ -573,7 +584,7 @@
   /* ============ BOBBIE FEATURED ============ */
   .bobbie-section {
     padding: 140px 36px;
-    background: rgba(13,6,16,0.55);
+    background: rgba(245,239,232,0.78);
     backdrop-filter: blur(2px);
   }
   .bobbie-header {
@@ -583,7 +594,7 @@
     margin-left: auto; margin-right: auto;
   }
   .bobbie-feature {
-    background: rgba(24,11,30,0.85);
+    background: rgba(255,250,243,0.92);
     backdrop-filter: blur(14px);
     border: 1px solid var(--border);
     border-radius: 24px;
@@ -594,7 +605,7 @@
     align-items: center;
     max-width: 1180px;
     margin: 0 auto;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    box-shadow: 0 30px 60px rgba(70,29,52,0.18);
   }
 
   /* Deanna mirrors Bobbie — visual on left, content on right */
@@ -656,7 +667,7 @@
     border-radius: 12px;
     overflow: hidden;
     background: var(--bg-mid);
-    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+    box-shadow: 0 30px 50px rgba(70,29,52,0.22);
   }
   .bobbie-portrait img { width: 100%; height: 100%; object-fit: cover; }
   .bobbie-portrait::after {
@@ -664,7 +675,7 @@
     position: absolute; bottom: 14px; left: 14px;
     font-family: var(--serif); font-style: italic;
     font-size: 22px; color: var(--txt);
-    background: rgba(13,6,16,0.78);
+    background: rgba(245,239,232,0.92);
     backdrop-filter: blur(10px);
     padding: 6px 16px;
     border: 1px solid var(--border-bright);
@@ -679,7 +690,7 @@
     border-radius: 18px;
     overflow: hidden;
     background: #000;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    box-shadow: 0 30px 50px rgba(70,29,52,0.25);
     z-index: 3;
   }
   .bobbie-screenshot img { width: 100%; height: auto; }
@@ -688,7 +699,7 @@
     position: absolute; top: 10px; left: 10px;
     font-family: var(--sans); font-size: 10px;
     letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--txt); background: rgba(13,6,16,0.88);
+    color: var(--moon); background: rgba(70,29,52,0.92);
     padding: 6px 12px; border-radius: 50px;
     border: 1px solid var(--border-bright); z-index: 4;
     font-weight: 600;
@@ -697,7 +708,7 @@
   /* ============ DM TESTIMONIAL COLLAGE ============ */
   .testimonials-collage {
     padding: 140px 36px;
-    background: rgba(13,6,16,0.7);
+    background: rgba(234,226,216,0.82);
     backdrop-filter: blur(3px);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -723,7 +734,7 @@
     margin: 0 auto;
   }
   .testi-tile {
-    background: rgba(24,11,30,0.88);
+    background: rgba(255,250,243,0.94);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -739,7 +750,7 @@
   .testi-tile:hover {
     transform: translateY(-4px);
     border-color: var(--border-bright);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(70,29,52,0.15);
   }
   .testi-tile.tall    { grid-column: span 4; min-height: 480px; }
   .testi-tile.short   { grid-column: span 4; min-height: 300px; }
@@ -802,7 +813,7 @@
     padding: 200px 36px;
     text-align: center;
     border-top: 1px solid var(--border);
-    background: rgba(13,6,16,0.45);
+    background: rgba(245,239,232,0.65);
     backdrop-filter: blur(1px);
   }
   .final-close .inner {
@@ -820,7 +831,7 @@
     margin-bottom: 32px;
     letter-spacing: -0.025em;
     text-transform: uppercase;
-    text-shadow: 0 4px 30px rgba(13,6,16,0.9);
+    
   }
   .final-close h2 em {
     display: block;
@@ -840,7 +851,7 @@
     font-weight: 400;
     max-width: 520px;
     margin: 0 auto 54px;
-    text-shadow: 0 2px 14px rgba(13,6,16,0.6);
+    
   }
   .final-close .sub strong { color: var(--txt); font-weight: 700; }
   .final-close .meta-row {
@@ -853,7 +864,7 @@
   /* ============ FAQ ============ */
   .faq {
     padding: 140px 36px;
-    background: rgba(13,6,16,0.65);
+    background: rgba(245,239,232,0.85);
     backdrop-filter: blur(3px);
   }
   .faq-header {
@@ -889,7 +900,7 @@
 
   /* ============ FOOTER ============ */
   footer {
-    background: rgba(13,6,16,0.92);
+    background: rgba(245,239,232,0.95);
     backdrop-filter: blur(12px);
     border-top: 1px solid var(--border);
     padding: 54px 36px 44px;
